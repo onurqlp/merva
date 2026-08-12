@@ -78,7 +78,9 @@
       display: grid;
       place-items: center;
       padding: 22px;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior: contain;
       background:
         radial-gradient(circle at 10% 15%, #ffdfe4 0 9rem, transparent 9.1rem),
         radial-gradient(circle at 88% 82%, #e6ddfa 0 12rem, transparent 12.1rem),
@@ -924,6 +926,28 @@
       .game-copy { max-width: 650px; }
     }
     @media (max-width: 680px) {
+      html { scroll-padding-top: 70px; }
+      body { -webkit-text-size-adjust: 100%; }
+      #welcome {
+        display: block;
+        padding: max(14px, env(safe-area-inset-top)) 12px max(14px, env(safe-area-inset-bottom));
+      }
+      .welcome-card {
+        width: 100%;
+        min-height: calc(100vh - 28px);
+        min-height: calc(100dvh - 28px);
+        margin: 0 auto;
+        padding: clamp(20px, 5vh, 34px) 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .welcome-card h1 { margin: 16px 0 10px; font-size: clamp(43px, 15vw, 67px); }
+      .welcome-card p { margin-bottom: 18px; font-size: 14px; line-height: 1.55; }
+      .welcome-card .btn { width: 100%; min-height: 54px; }
+      .boot-line { margin-bottom: 18px; }
+      .float-heart { display: none; }
       .nav a { display: none; }
       .topbar { min-height: 64px; }
       main { width: min(100% - 22px, 1180px); }
@@ -933,11 +957,16 @@
       .section-head { display: block; }
       .section-head p { margin-top: 12px; }
       .card, .card.wide, .card.narrow, .card.full { grid-column: 1 / -1; }
+      .card { min-height: 0; }
+      .card-actions { display: grid; grid-template-columns: 1fr; }
+      .card-actions .btn { width: 100%; }
+      .hero-actions { display: grid; grid-template-columns: 1fr; }
+      .hero-actions .btn { width: 100%; }
       .case-preview { grid-template-columns: 1fr 1fr; }
       .game-shell { padding: 22px; }
       .evidence-card { min-height: 118px; padding: 14px; }
       .clue-layout { grid-template-columns: 1fr; }
-      .crime-scene { min-height: 335px; }
+      .crime-scene { min-height: min(335px, 66vh); border-width: 5px; }
       .clue-book { order: -1; }
       .suspect-grid, .verdict-grid { grid-template-columns: 1fr; }
       .suspect { display: grid; grid-template-columns: 48px 1fr; align-items: center; }
@@ -955,9 +984,25 @@
       .memory-copy { text-align: center; }
       .support-fab b { font-size: 11px; }
       .support-fab small { display: none; }
-      .modal { padding: 8px; align-items: end; }
-      .modal-panel { max-height: 94vh; border-radius: 25px 25px 14px 14px; }
+      .support-fab { right: 12px; bottom: max(10px, env(safe-area-inset-bottom)); max-width: calc(100vw - 24px); min-height: 48px; padding: 8px 12px 8px 9px; }
+      .modal { padding: max(6px, env(safe-area-inset-top)) 6px max(6px, env(safe-area-inset-bottom)); align-items: end; }
+      .modal-panel { width: 100%; max-height: calc(100vh - 12px); max-height: calc(100dvh - 12px); border-radius: 25px 25px 14px 14px; }
+      .modal-head { min-height: 58px; padding: 9px 10px 9px 16px; }
+      .modal-title { max-width: calc(100vw - 90px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .modal-body { padding: 17px; }
+      .modal-actions { display: grid; grid-template-columns: 1fr; }
+      .modal-actions .btn { width: 100%; }
+      .option { min-height: 56px; }
+      .portal { min-height: 0; padding: 22px 17px; }
+      .portal h3 { font-size: 36px; }
+      .portal-nav { display: grid; grid-template-columns: 1fr 1fr; }
+      .portal-nav .btn { width: 100%; }
+      .portal-count { grid-column: 1 / -1; text-align: center; }
+      .protocol-actions { display: grid; grid-template-columns: 1fr; }
+      .protocol-actions .btn { width: 100%; }
+      .memory-mini { grid-template-columns: 68px minmax(0, 1fr); }
+      .memory-mini img { width: 68px; height: 76px; }
+      .info-grid div { overflow-wrap: anywhere; }
     }
     @media (max-width: 430px) {
       .welcome-card { padding: 28px 19px; }
@@ -968,6 +1013,25 @@
       .case-preview { gap: 8px; }
       .evidence-card { min-height: 108px; }
       .hotspot { width: 48px; height: 48px; font-size: 21px; }
+      .topbar { padding-left: 13px; padding-right: 10px; }
+      .logo { font-size: 14px; }
+      .sound-btn { padding: 8px; font-size: 11px; }
+      .hero h2 { font-size: clamp(42px, 14vw, 58px); }
+      .status-card { min-height: 0; }
+      .case-preview { grid-template-columns: 1fr; }
+      .evidence-card, .evidence-card:nth-child(n) { min-height: 88px; transform: none; }
+      .game-shell::after { font-size: 90px; }
+      .question-box { padding: 17px 14px; }
+      .code-display { padding: 17px 7px; font-size: clamp(20px, 7vw, 31px); letter-spacing: .08em; }
+      .heart-parts { gap: 6px; }
+      .heart-part { width: 43px; height: 43px; }
+    }
+    @media (max-height: 590px) and (max-width: 680px) {
+      .welcome-card { justify-content: flex-start; min-height: 0; padding-top: 18px; padding-bottom: 18px; }
+      .welcome-card h1 { font-size: 42px; }
+      .welcome-card p { margin-bottom: 12px; line-height: 1.4; }
+      .boot-line { margin-bottom: 12px; }
+      .system-pill { padding: 6px 9px; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -1197,7 +1261,10 @@
         modal.classList.remove("hidden");
         document.body.style.overflow = "hidden";
         modalPanel.scrollTop = 0;
-        setTimeout(() => $(".close-btn", modal)?.focus(), 10);
+        setTimeout(() => {
+          const closeButton = $(".close-btn", modal);
+          if (closeButton) closeButton.focus();
+        }, 10);
         tone(540, .045);
       }
 
@@ -1218,7 +1285,7 @@
       function tone(frequency = 480, duration = .05) {
         if (!soundOn) return;
         try {
-          audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+          if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
           const oscillator = audioContext.createOscillator();
           const gain = audioContext.createGain();
           oscillator.type = "sine";
@@ -1366,7 +1433,19 @@
         currentRiskReport = riskText(value);
         const instruction = value < 20 ? "Ödül olarak bir sarılma hakkı kazandın." : value < 45 ? "Yanında küçük bir tatlıyla rapor vermen öneriliyor." : value < 70 ? "En kısa sürede 'haklısın aşkım' protokolünü başlat." : value < 90 ? "Mantığı kapat, yemek seçeneğini aç ve yavaşça yaklaş." : "Konuşma. Tatlıyı masaya bırak. Merva'dan gelecek talimatı bekle.";
         const message = `MERVA.SİSTEM OTOMATİK RİSK RAPORU\n\n${currentRiskReport}\n\nSana özel talimat: ${instruction}\n\nBu rapor Merva tarafından ayarlandı ve itiraz kabul etmiyor. ♥`;
-        window.open(`https://wa.me/${ONUR_PHONE}?text=${encodeURIComponent(message)}`, "_blank", "noopener");
+        openWhatsApp(message);
+      }
+
+      function openWhatsApp(message) {
+        const address = `https://wa.me/${ONUR_PHONE}?text=${encodeURIComponent(message)}`;
+        const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+        if (isMobile) {
+          window.location.href = address;
+        } else {
+          const newWindow = window.open(address, "_blank");
+          if (newWindow) newWindow.opener = null;
+          else window.location.href = address;
+        }
       }
 
       function showLoveReport() {
@@ -1558,7 +1637,7 @@
       function contactGermanExpert() {
         const card = germanCards[germanIndex];
         const message = `ALMANCA UZMAN DESTEĞİ TALEBİ 🇩🇪\n\nMerhaba Onur, Merva.Sistem Almanca çalışma modunu açtı.\n\nŞu an çalıştığım cümle: “${card[0]}” (${card[1]})\n\nUzman olarak görevlerin:\n1. Telaffuzumu dinlemek,\n2. Sabırla düzeltmek,\n3. Sonunda “sehr gut, Merva” demek,\n4. Ders ücretini sarılma veya tatlıyla ödemek.\n\nRandevu talebimi bekliyorum. ♥`;
-        window.open(`https://wa.me/${ONUR_PHONE}?text=${encodeURIComponent(message)}`, "_blank", "noopener");
+        openWhatsApp(message);
       }
 
       function runManualTest() {
@@ -1814,7 +1893,7 @@
         if (action === "send-message") {
           const text = $("#supportMessage").value.trim();
           if (!text) { notify("Onur boş mesajı bile yanlış anlayabilir; önce bir şey yaz."); return; }
-          window.open(`https://wa.me/${ONUR_PHONE}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
+          openWhatsApp(text);
         }
         if (action === "protocol") openProtocol();
         if (action === "override") { completed.add("scan"); completed.add("quiz"); completed.add("game"); ["Scan", "Quiz", "Game"].forEach(x => $("#heart" + x).classList.add("found")); updateProtocol(); showFinale(); }
